@@ -1,0 +1,26 @@
+Plugin\Taba2FA\Entity\Taba2FA:
+    type: entity
+    table: plg_sw_twofactorauthentication
+    repositoryClass: Plugin\Taba2FA\Repository\Taba2FARepository
+    id:
+        member_id:
+            type: integer
+            unique: true
+            nullable: false
+            id: true
+            column: member_id
+            generator:
+                strategy: NONE
+    fields:
+        auth_key:
+            type: string
+            nullable: false
+        enable_flg:
+            type: smallint
+            nullable: false
+            options:
+                default: 1
+        create_date:
+            type: datetime
+            nullable: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,8 @@
+name: taba-security 2段階認証プラグイン
+code: Taba2FA
+version: 1.0.0
+service:
+    - Taba2FAServiceProvider
+orm.path:
+    - /Resource/doctrine
+event: Event

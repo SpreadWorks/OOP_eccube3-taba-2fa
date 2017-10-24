@@ -1,0 +1,48 @@
+Plugin\Taba2FA\Entity\Taba2FAMember:
+    type: entity
+    table: dtb_member
+    repositoryClass: Eccube\Repository\MemberRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: member_id
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: text
+            nullable: true
+        department:
+            type: text
+            nullable: true
+        rank:
+            type: integer
+            nullable: false
+            unsigned: false
+        del_flg:
+            type: smallint
+            nullable: false
+            unsigned: false
+            options:
+                default: '0'
+    manyToOne:
+        Work:
+            targetEntity: Eccube\Entity\Master\Work
+            joinColumn:
+                name: work
+                referencedColumnName: id
+        Authority:
+            targetEntity: Eccube\Entity\Master\Authority
+            joinColumn:
+                name: authority
+                referencedColumnName: id
+    oneToOne:
+        TwoFactorAuthentication:
+            targetEntity: Plugin\Taba2FA\Entity\Taba2FA
+            joinColumn:
+                name: member_id
+                referencedColumnName: member_id
+    lifecycleCallbacks: {  }

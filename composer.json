@@ -1,0 +1,9 @@
+{
+    "require": {
+        "RobThree/TwoFactorAuth":"*"
+    },
+    "autoload": {
+        "psr-4": {
+        }
+    }
+}

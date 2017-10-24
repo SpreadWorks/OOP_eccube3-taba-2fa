@@ -1,0 +1,11 @@
+# コントローラ実行前。認証処理実行済、ただし未ログイン時は実行されない
+eccube.event.admin.controller:
+   - [onEventAdminController, NORMAL]
+
+# メニューアイコン用
+eccube.event.admin.response:
+    - [onAdminNavRender, NORMAL]
+
+# メンバー削除時のイベントフック
+admin.setting.system.member.delete.initialize:
+   - [onAdminMemberDeleteInitialize,NORMAL]

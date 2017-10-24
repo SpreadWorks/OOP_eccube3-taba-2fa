@@ -1,0 +1,92 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
+
+#}
+{% extends 'default_frame.twig' %}
+
+{% set menus = ['tabasecure', 'tabasecure-twofactorauthentication'] %}
+
+{% block title %}taba secure 2段階認証設定{% endblock %}
+
+{% form_theme form 'Form/bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block main %}
+    <div class="row">
+        <div id="member_wrap" class="col-md-12">
+            <div id="member_list_box" class="box">
+                <div id="member_list_box__header" class="box-header">
+                </div><!-- /.box-header -->
+                <div id="member_list_box__body" class="box-body">
+                    <form name="form1" id="form1" method="post" action="">
+                        <div id="member_list__body" class="table_list">
+                            <div id="member_list__body_inner" class="table-responsive with-border">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr id="member_list__list_header">
+                                        <th id="member_list__header_name">名前</th>
+                                        <th id="member_list__header_department">所属</th>
+                                        <th id="member_list__header_authority_name">権限</th>
+                                        <th id="member_list__header_work_name">稼働</th>
+                                        <th id="member_list__header_twofactorauthentication_status">2段階認証状態</th>
+                                        <th id="member_list__header_twofactorauthentication_menu">2段階認証メニュー</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for Member in Members %}
+                                    <tr id="member_list__item--{{ Member.id }}">
+                                        <td id="member_list__name--{{ Member.id }}">{{ Member.name }}</td>
+                                        <td id="member_list__department--{{ Member.id }}">{{ Member.department }}</td>
+                                        <td id="member_list__authority_name--{{ Member.id }}">{{ Member.Authority.name }}</td>
+                                        <td id="member_list__work_name--{{ Member.id }}">{{ Member.Work.name }}</td>
+                                        {% if Member.TwoFactorAuthentication %}
+                                            {% if Member.TwoFactorAuthentication.isEnable() %}
+                                            {# 有効 #}
+                                                <td id="member_list__twofactorauthentication_status--{{ Member.id }}">有効</td>
+                                                <td id="member_list__twofactorauthentication_menu--{{ Member.id }}">
+                                                    <div id="member_list__menu_box_toggle--{{ Member.id }}" class="dropdown">
+                                                        <a class="dropdown-toggle--{{ Member.id }}" data-toggle="dropdown" aria-expanded="false"><svg class="cb cb-ellipsis-h"> <use xlink:href="#cb-ellipsis-h" /></svg></a>
+                                                        <ul id="member_list__menu--{{ Member.id }}" class="dropdown-menu dropdown-menu-right">
+                                                            <li><a href="{{ url('admin_plugin_tabasecure-2fa_regist', { 'id' : Member.id }) }}" >別のデバイスを再登録</a></li>
+                                                            <li><a href="{{ url('admin_plugin_tabasecure-2fa_disable', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }}  data-message="2段階認証を無効にしてもよろしいですか？">無効</a></li>
+                                                            <li><a href="{{ url('admin_plugin_tabasecure-2fa_delete', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }}  data-message="登録デバイスを削除してもよろしいですか？">削除</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            {% else %}
+                                            {# 無効 #}
+                                                <td id="member_list__twofactorauthentication_status--{{ Member.id }}">無効</td>
+                                                <td id="member_list__twofactorauthentication_menu--{{ Member.id }}">
+                                                    <div id="member_list__menu_box_toggle--{{ Member.id }}" class="dropdown">
+                                                        <a class="dropdown-toggle--{{ Member.id }}" data-toggle="dropdown" aria-expanded="false"><svg class="cb cb-ellipsis-h"> <use xlink:href="#cb-ellipsis-h" /></svg></a>
+                                                        <ul id="member_list__menu--{{ Member.id }}" class="dropdown-menu dropdown-menu-right">
+                                                            <li><a href="{{ url('admin_plugin_tabasecure-2fa_enable', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }} data-message="2段階認証を有効にしますか？">有効</a></li>
+                                                            <li><a href="{{ url('admin_plugin_tabasecure-2fa_delete', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }} data-message="登録デバイスを削除してもよろしいですか？">削除</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>                                                                      
+                                            {% endif %}
+                                        {% else %}
+                                            {# 未登録 #}
+                                                <td id="member_list__twofactorauthentication_status--{{ Member.id }}">未登録</td>                                                                        
+                                                <td id="member_list__twofactorauthentication_menu--{{ Member.id }}">
+                                                    <a href="{{ url('admin_plugin_tabasecure-2fa_regist', { 'id' : Member.id }) }}" >登録</a>                                                    
+                                                </td>                                                                        
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.box -->
+            <div id="member_list__footer" class="row">
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

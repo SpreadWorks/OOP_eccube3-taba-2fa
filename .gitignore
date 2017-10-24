@@ -1,0 +1,33 @@
+# temp files from editors
+*~
+*.bak
+.DS_Store
+.buildpath
+.project
+.settings
+*.tmproj
+build
+.idea
+nbproject/
+.vscode
+
+# hidden files created by Windows
+Thumbs.db
+desktop.ini
+
+*.log
+
+index.php
+xmlrpc.php
+.htaccess
+license.txt
+readme.html
+sitemap.xml
+sitemap.xml.gz
+
+# composer
+# composer.lock
+# vendor/
+
+
+!.gitkeep
