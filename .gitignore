@@ -15,19 +15,9 @@ nbproject/
 Thumbs.db
 desktop.ini
 
-*.log
-
-index.php
-xmlrpc.php
-.htaccess
-license.txt
-readme.html
-sitemap.xml
-sitemap.xml.gz
 
 # composer
-# composer.lock
-# vendor/
+composer.lock
 
 
 !.gitkeep
