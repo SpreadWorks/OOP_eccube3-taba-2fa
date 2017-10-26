@@ -44,7 +44,6 @@ class Event
      */
     public function onEventAdminController($event)
     {
-        log_info("---------------------------2段階認証状態を確認");
         // メンバー情報取得
         $Member = $this->app->user();
         
@@ -53,18 +52,14 @@ class Event
 
         // 2段階認証の設定を確認
         if ($Member2FA && $Member2FA->isEnable()) {
-            log_info("---------------------------2段階認証設定 済");
-
             $date = new \DateTime();
             $timestamp = $date->format('U');
 
             if (!$this->app['session']->get('eccube.admin.plugin.twofactorauthentication_lastauth_at')
             || $this->app['session']->get('eccube.admin.plugin.twofactorauthentication_lastauth_at') < $timestamp) {
-                log_info("---------------------------2段階認証認証状態 Error");
                 $request = $event->getRequest();
                 $route = $request->attributes->get('_route');
                 if ($route != "admin_plugin_tabasecure-2fa_auth")  {
-                    log_info("---------------------------2段階認証画面出ない場合は、認証画面へ遷移します");
                     header('Location: '.$this->app->url('admin_plugin_tabasecure-2fa_auth'));
                     exit;
                 }
@@ -78,9 +73,6 @@ class Event
      */
     public function onAdminMemberDeleteInitialize(EventArgs $event)
     {
-        
-        log_info("--------------------------- onAdminMemberDeleteInitialize START");
-
         $TargetMember = $event->getArgument('TargetMember');
         $Member2FA = $this->app['eccube.repository.tabasecure-2fa']->find($TargetMember->getId());
         if ($Member2FA) {

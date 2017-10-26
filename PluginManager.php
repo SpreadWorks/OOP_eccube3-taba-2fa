@@ -8,7 +8,7 @@
   * file that was distributed with this source code.
   */
 
-namespace Plugin\TabaTwoFactorAuthentication;
+namespace Plugin\Taba2FA;
 
 use Eccube\Plugin\AbstractPluginManager;
 
