@@ -8,10 +8,10 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20171017000000 extends AbstractMigration
+class Version20171027000000 extends AbstractMigration
 {
 
-    const NAME = 'plg_sw_twofactorauthentication';
+    const NAME = 'plg_taba_2fa';
 
     /**
      * @param Schema $schema
