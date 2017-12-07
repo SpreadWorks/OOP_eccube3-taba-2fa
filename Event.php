@@ -58,12 +58,12 @@ class Event
     /**
      * メニューアイコン用SVG 追加のためのイベント
      *
-     * @param 
+     * @param
      */
     public function onAdminNavRender(FilterResponseEvent $event)
     {
-        if (!isset($app['eccube.plugin.taba-secure.event.menu'])) {
-            $app['eccube.plugin.taba-secure.event.menu'] = true;
+        if (!isset($this->app['eccube.plugin.taba-secure.event.menu'])) {
+            $this->app['eccube.plugin.taba-secure.event.menu'] = true;
             $addHtml = <<< EOT
 <script>
     $(function() {

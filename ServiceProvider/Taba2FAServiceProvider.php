@@ -95,27 +95,28 @@ class Taba2FAServiceProvider implements ServiceProviderInterface
 
         // Menu 設定
         $app['config'] = $app->share($app->extend('config', function ($config) {
-            $addNavi = array(
-                'id' => 'tabasecure',
-                'name' => 'taba secure',
-                'has_child' => true,
-                'icon' => 'taba-secure',
-                'child' => array(
-                    array(
-                        'id' => 'tabasecure-2fa',
-                        'name' => '2段階認証',
-                        'url' => 'admin_plugin_tabasecure-2fa_member',
-                    ),
-                ),
+            $parent = array('id' => 'tabasecure','name' => 'taba secure','icon' => 'taba-secure','has_child' => true,);
+
+            $child = array(
+                'id' => 'tabasecure-twofactorauthentication',
+                'name' => '2段階認証',
+                'url' => 'admin_plugin_tabasecure-2fa_member',
             );
-            $nav = $config['nav'];
-            foreach ($nav as $key => $val) {
-                if ('setting' == $val['id']) {
-                    array_splice($nav, $key, 0, array($addNavi));
+
+            $insert_pos = 0;
+            foreach ($config['nav'] as $key => &$val) {
+                if ($val['id'] == 'setting') {
+                    $insert_pos = $key;
+                } else if ($val['id'] == 'tabasecure') {
+                    $insert_pos = 0;
+                    $val['child'][] = $child;
                     break;
                 }
             }
-            $config['nav'] = $nav;
+            if ($insert_pos) {
+                $parent['child'][] = $child;
+                array_splice($config['nav'],$insert_pos,0,array($parent));
+            }
 
             return $config;
         }));
