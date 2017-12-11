@@ -8,7 +8,7 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
 
 {% set menus = ['tabasecure', 'tabasecure-twofactorauthentication'] %}
 
-{% block title %}taba secure 2段階認証設定{% endblock %}
+{% block title %}taba&trade; secure 2段階認証設定{% endblock %}
 
 {% form_theme form 'Form/bootstrap_3_horizontal_layout.html.twig' %}
 
@@ -65,14 +65,14 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                                                             <li><a href="{{ url('admin_plugin_tabasecure-2fa_delete', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }} data-message="登録デバイスを削除してもよろしいですか？">削除</a></li>
                                                         </ul>
                                                     </div>
-                                                </td>                                                                      
+                                                </td>
                                             {% endif %}
                                         {% else %}
                                             {# 未登録 #}
-                                                <td id="member_list__twofactorauthentication_status--{{ Member.id }}">未登録</td>                                                                        
+                                                <td id="member_list__twofactorauthentication_status--{{ Member.id }}">未登録</td>
                                                 <td id="member_list__twofactorauthentication_menu--{{ Member.id }}">
-                                                    <a href="{{ url('admin_plugin_tabasecure-2fa_regist', { 'id' : Member.id }) }}" >登録</a>                                                    
-                                                </td>                                                                        
+                                                    <a href="{{ url('admin_plugin_tabasecure-2fa_regist', { 'id' : Member.id }) }}" >登録</a>
+                                                </td>
                                         {% endif %}
                                     </tr>
                                     {% endfor %}

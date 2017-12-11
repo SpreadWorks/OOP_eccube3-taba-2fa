@@ -26,10 +26,10 @@ class Version20171027000000 extends AbstractMigration
 
         $table->addColumn('member_id', 'integer', array(
             'notnull' => true,
-            'length'=>255, 
+            'length'=>255,
             'unique'=>true
         ));
-        
+
         $table->addColumn('auth_key', 'text', array(
             'notnull' => false,
         ));

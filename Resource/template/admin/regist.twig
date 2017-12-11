@@ -8,7 +8,7 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
 
 {% set menus = ['tabasecure', 'tabasecure-twofactorauthentication'] %}
 
-{% block title %}taba secure 2段階認証設定 - {{ Member.name }}{% endblock %}
+{% block title %}taba&trade; secure 2段階認証設定 - {{ Member.name }}{% endblock %}
 
 {% form_theme form 'Form/bootstrap_3_horizontal_layout.html.twig' %}
 
@@ -18,21 +18,21 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
             <form role="form" class="form-horizontal" name="form1" id="form1" method="post" action="" >
             <div id="detail_box__body" class="box">
                 <div id="detail_box__body_header" class="box-header">
-                    <h3 class="box-title">STEP 1:　QRコードを読み込んでください。</h3>
+                    <h3 class="box-title">STEP 1:　QRコードをGoogle Authenticatorに読み込んでください。</h3>
                 </div><!-- /.box-header -->
                 <div id="detail_box__body_inner" class="box-body">
 
-                    {# CSRF #}                        
+                    {# CSRF #}
                     {{ form_row(form._token) }}
 
 
-                    {# シークレットキー #}                        
+                    {# シークレットキー #}
                     {% if form.auth_key is defined %}
                         {{ form_row(form.auth_key) }}
                     {% endif %}
 
 
-                    {# デバイストークン 入力フォーム #}                        
+                    {# デバイストークン 入力フォーム #}
                     {% if TwoFactorAuthentication.Secret is null %}
                     <div class="form-group">
                         <div class="col-sm-2">
@@ -50,7 +50,7 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                         </div>
                         <div class="col-sm-10">
                         <div id="qrcode">
-                        </div> 
+                        </div>
                         </div>
                     </div>
                     <script src="{{ url('admin_plugin_tabasecure-2fa_jquery-qrcode-min') }}"></script>
@@ -63,7 +63,7 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                         fill: '#000',
 
                         // content
-                        text: 'otpauth://totp/{{ BaseInfo.shop_name|url_encode }}?secret={{ TwoFactorAuthentication.Secret }}',
+                        text: 'otpauth://totp/{{ 'taba secure:'|url_encode }}{{ BaseInfo.shop_name|url_encode }}{{ ' - '|url_encode }}{{ Member.name|url_encode }}?secret={{ TwoFactorAuthentication.Secret }}&issuer={{ 'taba secure'|url_encode }}',
 
                         // corner radius relative to module width: 0.0 .. 0.5
                         radius: 0,
@@ -99,10 +99,10 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
             </div><!-- /.box -->
             <div id="detail_box__body" class="box">
                 <div id="detail_box__body_header" class="box-header">
-                    <h3 class="box-title">STEP 2:　表示されているデバイストークン 数字6桁 を入力ください。</h3>
+                    <h3 class="box-title">STEP 2:　表示されている6桁の数字(デバイストークン)を入力ください。</h3>
                 </div><!-- /.box-header -->
-                <div id="detail_box__body_inner" class="box-body">                    
-                    
+                <div id="detail_box__body_inner" class="box-body">
+
                     {# デバイストークン 入力フォーム #}
                     {% if form.check_one_code is defined %}
                         {{ form_row(form.check_one_code) }}
@@ -111,6 +111,16 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
             </form>
+            <div id="detail_box__body" class="box">
+                <div id="detail_box__body_header" class="box-header">
+                    <h3 class="box-title">2段階認証アプリ - Google Authenticator</h3>
+                </div><!-- /.box-header -->
+                <div id="detail_box__body_inner" class="box-body text-center">
+                    <p>スマートフォンに「Google Authenticator」をインストールしてください。</p>
+                    <a target="_blank" href="https://itunes.apple.com/jp/app/google-authenticator/id388497605?mt=8"><img src="{{ url('admin_plugin_tabasecure-2fa_img_app_appstore') }}" alt="App store" width="150"></a>
+                    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=ja"><img src="{{ url('admin_plugin_tabasecure-2fa_app_googleplay') }}" alt="Google Play" width="150"></a>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
             <div id="detail_box__footer" class="row">
                 <div id="detail_box__back_button" class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 text-center btn_area">
                     <p><a href="{{ url('admin_plugin_tabasecure-2fa_member') }}">戻る</a></p>
@@ -118,7 +128,7 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
             </div>
 
         </div><!-- /.col -->
-        
+
         <div class="col-md-3" id="aside_column">
             <div id="common_box" class="col_inner">
                 <div id="common_button_box" class="box no-header">
@@ -131,9 +141,9 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>
-        </div><!-- /.col --> 
+        </div><!-- /.col -->
 
-        
+
     </div>
 
 {% endblock %}

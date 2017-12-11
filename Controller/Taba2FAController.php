@@ -32,7 +32,7 @@ class Taba2FAController extends AbstractController
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $tfa = new TwoFactorAuth();
-                
+
                 // メンバー情報取得
                 $Member = $app->user();
 
@@ -59,7 +59,7 @@ class Taba2FAController extends AbstractController
         }
 
         return $app->render(
-                'Taba2FA/Resource/template/admin/authentication.twig', 
+                'Taba2FA/Resource/template/admin/authentication.twig',
                 array(
                     'error' => $app['security.last_error']($request),
                     'form' => $form->createView(),
@@ -72,7 +72,7 @@ class Taba2FAController extends AbstractController
     {
 
         $Members = $app['eccube.repository.tabasecure-2famember']->findBy(array(), array('rank' => 'DESC'));
-        
+
         $builder = $app['form.factory']->createBuilder();
 
         $event = new EventArgs(
@@ -86,7 +86,7 @@ class Taba2FAController extends AbstractController
         $form = $builder->getForm();
 
         return $app->render(
-            'Taba2FA/Resource/template/admin/member.twig', 
+            'Taba2FA/Resource/template/admin/member.twig',
             array(
                 'form' => $form->createView(),
                 'Members' => $Members,
@@ -110,7 +110,7 @@ class Taba2FAController extends AbstractController
         // シークレットキー
         $secret = null;
 
-        // 2段階認証 
+        // 2段階認証
         $tfa = new TwoFactorAuth();
 
         // フォームビルド
@@ -137,7 +137,7 @@ class Taba2FAController extends AbstractController
         if ('GET' === $request->getMethod()) {
             // シークレットキー生成
             $secret = $tfa->createSecret();
-            
+
             // シークレットキーをフォームにセット
             $builder->get('auth_key')->setData($secret);
         }
@@ -146,10 +146,10 @@ class Taba2FAController extends AbstractController
         $form = $builder->getForm();
 
         if ('POST' === $request->getMethod()) {
-            $form->handleRequest($request);            
-        
+            $form->handleRequest($request);
+
             if ($form->isValid()) {
-        
+
                 $checkResult = $tfa->verifyCode($form->get('auth_key')->getData(), $form->get('check_one_code')->getData(), 2);    // 2 = 2*30sec clock tolerance
                 if ($checkResult) {
                     // 2段階認証Entity 更新
@@ -170,17 +170,17 @@ class Taba2FAController extends AbstractController
                     } catch (\Exception $e) {
                         $app['orm.em']->getConnection()->rollback();
                         $app->addERROR('デバイスが登録できませんでした。' , 'admin');
-                    }        
+                    }
                 } else {
                     $app->addERROR('デバイストークンに誤りがあります。' , 'admin');
-                }                
+                }
             } else {
                 $app->addERROR('デバイストークンに誤りがあります。数字6桁でご入力ください。' , 'admin');
             }
         }
 
         return $app->render(
-            'Taba2FA/Resource/template/admin/regist.twig', 
+            'Taba2FA/Resource/template/admin/regist.twig',
                 array(
                         'form' => $form->createView(),
                         'Member' => $Member,
@@ -269,6 +269,20 @@ class Taba2FAController extends AbstractController
     {
         $response =  $app->render('Taba2FA/Resource/assets/admin/js/jquery-qrcode-0.14.0.min.js.twig', array());
         $response->headers->set('Content-Type', 'text/javascript');
+        return $response;
+    }
+
+    public function img_app_appstore(Application $app, Request $request, $id = null)
+    {
+        $response =  $app->render('Taba2FA/Resource/assets/admin/img/app_appstore.svg', array());
+        $response->headers->set('Content-Type', 'image/svg+xml');
+        return $response;
+    }
+
+    public function img_app_googleplay(Application $app, Request $request, $id = null)
+    {
+        $response =  $app->render('Taba2FA/Resource/assets/admin/img/app_googleplay.svg', array());
+        $response->headers->set('Content-Type', 'image/svg+xml');
         return $response;
     }
 }

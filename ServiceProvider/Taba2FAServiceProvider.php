@@ -50,19 +50,22 @@ class Taba2FAServiceProvider implements ServiceProviderInterface
         $admin->match('/plugin/taba-secure/2fa/regist/{id}', 'Plugin\Taba2FA\Controller\Taba2FAController::regist')->assert('id', '\d+')->bind('admin_plugin_tabasecure-2fa_regist');
         //   登録ページ QR生成JS
         $admin->match('/plugin/taba-secure/2fa/js/jquery-qrcode-min.js', 'Plugin\Taba2FA\Controller\Taba2FAController::jquery_qrcode_min')->bind('admin_plugin_tabasecure-2fa_jquery-qrcode-min');
+        //   アプリバナー
+        $admin->match('/plugin/taba-secure/2fa/img/app_appstore.svg', 'Plugin\Taba2FA\Controller\Taba2FAController::img_app_appstore')->bind('admin_plugin_tabasecure-2fa_img_app_appstore');
+        $admin->match('/plugin/taba-secure/2fa/img/app_googleplay.svg', 'Plugin\Taba2FA\Controller\Taba2FAController::img_app_googleplay')->bind('admin_plugin_tabasecure-2fa_app_googleplay');
         //   削除
         $admin->match('/plugin/taba-secure/2fa/delete/{id}', 'Plugin\Taba2FA\Controller\Taba2FAController::delete')->assert('id', '\d+')->bind('admin_plugin_tabasecure-2fa_delete');
         //   有効
         $admin->match('/plugin/taba-secure/2fa/enable/{id}', 'Plugin\Taba2FA\Controller\Taba2FAController::enable')->assert('id', '\d+')->bind('admin_plugin_tabasecure-2fa_enable');
         //   無効
         $admin->match('/plugin/taba-secure/2fa/disable/{id}', 'Plugin\Taba2FA\Controller\Taba2FAController::disable')->assert('id', '\d+')->bind('admin_plugin_tabasecure-2fa_disable');
-        
+
         //   認証ページ
         $admin->match('/plugin/taba-secure/2fa/auth', 'Plugin\Taba2FA\Controller\Taba2FAController::auth')->bind('admin_plugin_tabasecure-2fa_auth');
         //  管理画面のルーティング設定をappに設定
         $app->mount('/'.trim($app['config']['admin_route'], '/').'/', $admin);
 
-        
+
         // Event 設定
         $app['eccube.plugin.tabasecure-2fa_auth.event'] = $app->share(function () use ($app) {
             return new Event($app);
@@ -71,14 +74,11 @@ class Taba2FAServiceProvider implements ServiceProviderInterface
             return new Event($app);
         });
 
-
         // FormType 設定
         $app['form.types'] = $app->share($app->extend('form.types', function ($types) use ($app) {
             $types[] = new Taba2FAFormType();
             return $types;
         }));
-
-
 
         // Repository 設定
         //  2段階認証
@@ -91,7 +91,6 @@ class Taba2FAServiceProvider implements ServiceProviderInterface
         $app['eccube.repository.tabasecure-2famember'] = $app->share(function () use ($app) {
             return $repository = $app['orm.em']->getRepository('Plugin\Taba2FA\Entity\Taba2FAMember');
         });
-
 
         // Menu 設定
         $app['config'] = $app->share($app->extend('config', function ($config) {

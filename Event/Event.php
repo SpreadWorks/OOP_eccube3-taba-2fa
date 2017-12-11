@@ -46,7 +46,7 @@ class Event
     {
         // メンバー情報取得
         $Member = $this->app->user();
-        
+
         // 2段階認証Entity
         $Member2FA = $this->app['eccube.repository.tabasecure-2fa']->find($Member->getId());
 
