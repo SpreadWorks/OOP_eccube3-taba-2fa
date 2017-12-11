@@ -37,7 +37,7 @@ class Taba2FAController extends AbstractController
                 $Member = $app->user();
 
                 // 2段階認証Entity
-                $Member2FA = $app['eccube.repository.tabasecure-2fa']->find($Member->getId());
+                $Member2FA = $app['eccube.repository.taba-2fa']->find($Member->getId());
 
                 if ($Member2FA) {
                     if ($tfa->verifyCode($Member2FA->getAuthKey(), $form->get('check_one_code')->getData(),2)) {
@@ -71,7 +71,7 @@ class Taba2FAController extends AbstractController
     public function member(Application $app, Request $request, $id = null)
     {
 
-        $Members = $app['eccube.repository.tabasecure-2famember']->findBy(array(), array('rank' => 'DESC'));
+        $Members = $app['eccube.repository.taba-2famember']->findBy(array(), array('rank' => 'DESC'));
 
         $builder = $app['form.factory']->createBuilder();
 
@@ -153,7 +153,7 @@ class Taba2FAController extends AbstractController
                 $checkResult = $tfa->verifyCode($form->get('auth_key')->getData(), $form->get('check_one_code')->getData(), 2);    // 2 = 2*30sec clock tolerance
                 if ($checkResult) {
                     // 2段階認証Entity 更新
-                    $Member2FA = $app['eccube.repository.tabasecure-2fa']->find($id);
+                    $Member2FA = $app['eccube.repository.taba-2fa']->find($id);
                     if (!$Member2FA) {
                         $Member2FA = new \Plugin\Taba2FA\Entity\Taba2FA();
                         $Member2FA->setId($id);
@@ -166,7 +166,7 @@ class Taba2FAController extends AbstractController
                         $app['orm.em']->flush($Member2FA);
                         $app['orm.em']->getConnection()->commit();
                         $app->addSuccess(' 2段階認証のデバイスが登録されました。', 'admin');
-                        return $app->redirect($app->url('admin_plugin_tabasecure-2fa_member'));
+                        return $app->redirect($app->url('admin_plugin_taba-2fa_member'));
                     } catch (\Exception $e) {
                         $app['orm.em']->getConnection()->rollback();
                         $app->addERROR('デバイスが登録できませんでした。' , 'admin');
@@ -195,10 +195,10 @@ class Taba2FAController extends AbstractController
     {
         $this->isTokenValid($app);
 
-        $Member2FA = $app['eccube.repository.tabasecure-2fa']->find($id);
+        $Member2FA = $app['eccube.repository.taba-2fa']->find($id);
         if (!$Member2FA) {
             $app->addSuccess('メンバーが確認できないため、削除できませんでした。', 'admin');
-            return $app->redirect($app->url('admin_plugin_tabasecure-2fa_member'));
+            return $app->redirect($app->url('admin_plugin_taba-2fa_member'));
         }
 
         $app['orm.em']->getConnection()->beginTransaction();
@@ -211,17 +211,17 @@ class Taba2FAController extends AbstractController
             $app['orm.em']->getConnection()->rollback();
             $app->addError('削除できませんでした。', 'admin');
         }
-        return $app->redirect($app->url('admin_plugin_tabasecure-2fa_member'));
+        return $app->redirect($app->url('admin_plugin_taba-2fa_member'));
     }
 
     public function enable(Application $app, Request $request, $id)
     {
         $this->isTokenValid($app);
 
-        $Member2FA = $app['eccube.repository.tabasecure-2fa']->find($id);
+        $Member2FA = $app['eccube.repository.taba-2fa']->find($id);
         if (!$Member2FA) {
             $app->addSuccess('メンバーが確認できないため、有効にできませんでした。', 'admin');
-            return $app->redirect($app->url('admin_plugin_tabasecure-2fa_member'));
+            return $app->redirect($app->url('admin_plugin_taba-2fa_member'));
         }
 
         $app['orm.em']->getConnection()->beginTransaction();
@@ -236,17 +236,17 @@ class Taba2FAController extends AbstractController
             $app->addError('有効にできませんでした。', 'admin');
         }
 
-        return $app->redirect($app->url('admin_plugin_tabasecure-2fa_member'));
+        return $app->redirect($app->url('admin_plugin_taba-2fa_member'));
     }
 
     public function disable(Application $app, Request $request, $id)
     {
         $this->isTokenValid($app);
 
-        $Member2FA = $app['eccube.repository.tabasecure-2fa']->find($id);
+        $Member2FA = $app['eccube.repository.taba-2fa']->find($id);
         if (!$Member2FA) {
             $app->addSuccess('メンバーが確認できないため、無効にできませんでした。', 'admin');
-            return $app->redirect($app->url('admin_plugin_tabasecure-2fa_member'));
+            return $app->redirect($app->url('admin_plugin_taba-2fa_member'));
         }
 
         $app['orm.em']->getConnection()->beginTransaction();
@@ -261,7 +261,7 @@ class Taba2FAController extends AbstractController
             $app->addError('無効にできませんでした。', 'admin');
         }
 
-        return $app->redirect($app->url('admin_plugin_tabasecure-2fa_member'));
+        return $app->redirect($app->url('admin_plugin_taba-2fa_member'));
     }
 
 

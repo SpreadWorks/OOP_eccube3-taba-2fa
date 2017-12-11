@@ -11,7 +11,7 @@ use Doctrine\DBAL\Schema\Schema;
 class Version20171027000000 extends AbstractMigration
 {
 
-    const NAME = 'plg_sw_twofactorauthentication';
+    const NAME = 'plg_taba_2fa_auth_key';
 
     /**
      * @param Schema $schema

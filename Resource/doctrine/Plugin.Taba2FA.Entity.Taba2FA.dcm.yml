@@ -1,6 +1,6 @@
 Plugin\Taba2FA\Entity\Taba2FA:
     type: entity
-    table: plg_sw_twofactorauthentication
+    table: plg_taba_2fa_auth_key
     repositoryClass: Plugin\Taba2FA\Repository\Taba2FARepository
     id:
         member_id:

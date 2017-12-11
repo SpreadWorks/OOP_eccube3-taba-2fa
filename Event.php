@@ -42,7 +42,7 @@ class Event
      */
     public function onEventAdminController( $event)
     {
-        $this->app['eccube.plugin.tabasecure-2fa_auth.event']->onEventAdminController($event);
+        $this->app['eccube.plugin.taba-2fa_auth.event']->onEventAdminController($event);
     }
 
     /**
@@ -52,7 +52,7 @@ class Event
      */
     public function onAdminMemberDeleteInitialize( $event)
     {
-        $this->app['eccube.plugin.tabasecure-2fa_member_delete.event']->onAdminMemberDeleteInitialize($event);
+        $this->app['eccube.plugin.taba-2fa_member_delete.event']->onAdminMemberDeleteInitialize($event);
     }
 
     /**

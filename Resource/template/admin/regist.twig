@@ -41,7 +41,7 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                         <p>QRの再表示はこちらをクリックしてください。</p>
                         <p>再度QRコードの読み込みが必要となります。</p>
 
-                        <a class="btn btn-default" href="{{ url('admin_plugin_tabasecure-2fa_regist', { 'id' : Member.id }) }}">QRコード 再表示</a>
+                        <a class="btn btn-default" href="{{ url('admin_plugin_taba-2fa_regist', { 'id' : Member.id }) }}">QRコード 再表示</a>
                         </div>
                     </div>
                     {% else %}
@@ -53,7 +53,7 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                         </div>
                         </div>
                     </div>
-                    <script src="{{ url('admin_plugin_tabasecure-2fa_jquery-qrcode-min') }}"></script>
+                    <script src="{{ url('admin_plugin_taba-2fa_jquery-qrcode-min') }}"></script>
                     <script>
                     var options = {
                         // size in pixel
@@ -117,13 +117,13 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                 </div><!-- /.box-header -->
                 <div id="detail_box__body_inner" class="box-body text-center">
                     <p>スマートフォンに「Google Authenticator」をインストールしてください。</p>
-                    <a target="_blank" href="https://itunes.apple.com/jp/app/google-authenticator/id388497605?mt=8"><img src="{{ url('admin_plugin_tabasecure-2fa_img_app_appstore') }}" alt="App store" width="150"></a>
-                    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=ja"><img src="{{ url('admin_plugin_tabasecure-2fa_app_googleplay') }}" alt="Google Play" width="150"></a>
+                    <a target="_blank" href="https://itunes.apple.com/jp/app/google-authenticator/id388497605?mt=8"><img src="{{ url('admin_plugin_taba-2fa_img_app_appstore') }}" alt="App store" width="150"></a>
+                    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=ja"><img src="{{ url('admin_plugin_taba-2fa_app_googleplay') }}" alt="Google Play" width="150"></a>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
             <div id="detail_box__footer" class="row">
                 <div id="detail_box__back_button" class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 text-center btn_area">
-                    <p><a href="{{ url('admin_plugin_tabasecure-2fa_member') }}">戻る</a></p>
+                    <p><a href="{{ url('admin_plugin_taba-2fa_member') }}">戻る</a></p>
                 </div>
             </div>
 

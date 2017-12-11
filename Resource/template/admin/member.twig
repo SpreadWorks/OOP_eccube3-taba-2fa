@@ -48,9 +48,9 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                                                     <div id="member_list__menu_box_toggle--{{ Member.id }}" class="dropdown">
                                                         <a class="dropdown-toggle--{{ Member.id }}" data-toggle="dropdown" aria-expanded="false"><svg class="cb cb-ellipsis-h"> <use xlink:href="#cb-ellipsis-h" /></svg></a>
                                                         <ul id="member_list__menu--{{ Member.id }}" class="dropdown-menu dropdown-menu-right">
-                                                            <li><a href="{{ url('admin_plugin_tabasecure-2fa_regist', { 'id' : Member.id }) }}" >別のデバイスを再登録</a></li>
-                                                            <li><a href="{{ url('admin_plugin_tabasecure-2fa_disable', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }}  data-message="2段階認証を無効にしてもよろしいですか？">無効</a></li>
-                                                            <li><a href="{{ url('admin_plugin_tabasecure-2fa_delete', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }}  data-message="登録デバイスを削除してもよろしいですか？">削除</a></li>
+                                                            <li><a href="{{ url('admin_plugin_taba-2fa_regist', { 'id' : Member.id }) }}" >別のデバイスを再登録</a></li>
+                                                            <li><a href="{{ url('admin_plugin_taba-2fa_disable', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }}  data-message="2段階認証を無効にしてもよろしいですか？">無効</a></li>
+                                                            <li><a href="{{ url('admin_plugin_taba-2fa_delete', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }}  data-message="登録デバイスを削除してもよろしいですか？">削除</a></li>
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -61,8 +61,8 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                                                     <div id="member_list__menu_box_toggle--{{ Member.id }}" class="dropdown">
                                                         <a class="dropdown-toggle--{{ Member.id }}" data-toggle="dropdown" aria-expanded="false"><svg class="cb cb-ellipsis-h"> <use xlink:href="#cb-ellipsis-h" /></svg></a>
                                                         <ul id="member_list__menu--{{ Member.id }}" class="dropdown-menu dropdown-menu-right">
-                                                            <li><a href="{{ url('admin_plugin_tabasecure-2fa_enable', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }} data-message="2段階認証を有効にしますか？">有効</a></li>
-                                                            <li><a href="{{ url('admin_plugin_tabasecure-2fa_delete', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }} data-message="登録デバイスを削除してもよろしいですか？">削除</a></li>
+                                                            <li><a href="{{ url('admin_plugin_taba-2fa_enable', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }} data-message="2段階認証を有効にしますか？">有効</a></li>
+                                                            <li><a href="{{ url('admin_plugin_taba-2fa_delete', { 'id' : Member.id }) }}" {{ csrf_token_for_anchor() }} data-message="登録デバイスを削除してもよろしいですか？">削除</a></li>
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -71,7 +71,7 @@ Copyright(c) SPREAD WORKS CO.,LTD. All Rights Reserved.
                                             {# 未登録 #}
                                                 <td id="member_list__twofactorauthentication_status--{{ Member.id }}">未登録</td>
                                                 <td id="member_list__twofactorauthentication_menu--{{ Member.id }}">
-                                                    <a href="{{ url('admin_plugin_tabasecure-2fa_regist', { 'id' : Member.id }) }}" >登録</a>
+                                                    <a href="{{ url('admin_plugin_taba-2fa_regist', { 'id' : Member.id }) }}" >登録</a>
                                                 </td>
                                         {% endif %}
                                     </tr>

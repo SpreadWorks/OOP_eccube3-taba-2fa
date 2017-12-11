@@ -44,11 +44,16 @@ class Event
      */
     public function onEventAdminController($event)
     {
+        // config.yml の plugin_enable が false に設定されていた場合、処理を終了します。
+        if (!$this->app['config']['Taba2FA']['const']['plugin_enable']) {
+            return;
+        }
+
         // メンバー情報取得
         $Member = $this->app->user();
 
         // 2段階認証Entity
-        $Member2FA = $this->app['eccube.repository.tabasecure-2fa']->find($Member->getId());
+        $Member2FA = $this->app['eccube.repository.taba-2fa']->find($Member->getId());
 
         // 2段階認証の設定を確認
         if ($Member2FA && $Member2FA->isEnable()) {
@@ -59,8 +64,8 @@ class Event
             || $this->app['session']->get('eccube.admin.plugin.twofactorauthentication_lastauth_at') < $timestamp) {
                 $request = $event->getRequest();
                 $route = $request->attributes->get('_route');
-                if ($route != "admin_plugin_tabasecure-2fa_auth")  {
-                    header('Location: '.$this->app->url('admin_plugin_tabasecure-2fa_auth'));
+                if ($route != "admin_plugin_taba-2fa_auth")  {
+                    header('Location: '.$this->app->url('admin_plugin_taba-2fa_auth'));
                     exit;
                 }
             }
@@ -74,7 +79,7 @@ class Event
     public function onAdminMemberDeleteInitialize(EventArgs $event)
     {
         $TargetMember = $event->getArgument('TargetMember');
-        $Member2FA = $this->app['eccube.repository.tabasecure-2fa']->find($TargetMember->getId());
+        $Member2FA = $this->app['eccube.repository.taba-2fa']->find($TargetMember->getId());
         if ($Member2FA) {
             $this->app['orm.em']->remove($Member2FA);
             return;
