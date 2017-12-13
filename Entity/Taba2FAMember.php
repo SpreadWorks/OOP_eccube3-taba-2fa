@@ -1,12 +1,12 @@
 <?php
 /*
-  * This file is part of the TwoFactorAuthentication plugin
-  *
-  * Copyright (C) SPREAD WORKS CO.,LTD. All Rights Reserved.
-  *
-  * For the full copyright and license information, please view the LICENSE
-  * file that was distributed with this source code.
-  */
+ * This file is part of the "taba secure 2-FACTOR AUTHNTICATION" plugin
+ *
+ * Copyright (C) SPREAD WORKS Inc. All Rights Reserved.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Plugin\Taba2FA\Entity;
 
@@ -52,7 +52,7 @@ class Taba2FAMember extends AbstractEntity
      * @return \Plugin\Taba2FA\Entity\Taba2FA
      */
     public function getTwoFactorAuthentication()
-    {   
+    {
         if (EntityUtil::isEmpty($this->TwoFactorAuthentication)){
             return false;
         }
@@ -63,7 +63,7 @@ class Taba2FAMember extends AbstractEntity
      * @var integer
      */
     private $id;
-    
+
     /**
      * @var string
      */

@@ -1,12 +1,12 @@
 <?php
 /*
-  * This file is part of the TwoFactorAuthentication plugin
-  *
-  * Copyright (C) SPREAD WORKS CO.,LTD. All Rights Reserved.
-  *
-  * For the full copyright and license information, please view the LICENSE
-  * file that was distributed with this source code.
-  */
+ * This file is part of the "taba secure 2-FACTOR AUTHNTICATION" plugin
+ *
+ * Copyright (C) SPREAD WORKS Inc. All Rights Reserved.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Plugin\Taba2FA\Entity;
 
@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Taba2FA.
  */
 class Taba2FA extends AbstractEntity
-{ 
+{
     /**
      * @return string
      */
@@ -31,13 +31,13 @@ class Taba2FA extends AbstractEntity
     private $auth_key;
 
     private $enable_flg;
-    
+
     private $create_date;
-  
+
     public function setId($id)
     {
         $this->member_id = $id;
-        
+
         return $this;
     }
 
@@ -49,7 +49,7 @@ class Taba2FA extends AbstractEntity
     public function setAuthKey($auth_key)
     {
         $this->auth_key = $auth_key;
-        
+
         return $this;
     }
 
@@ -61,7 +61,7 @@ class Taba2FA extends AbstractEntity
     public function setEnableFlg($enable_flg)
     {
         $this->enable_flg = $enable_flg;
-        
+
         return $this;
     }
 
@@ -74,14 +74,14 @@ class Taba2FA extends AbstractEntity
     {
         if ($this->enable_flg === 1) {
             return true;
-        } 
+        }
         return false;
     }
 
     public function setCreateDate($create_date)
     {
         $this->create_date = $create_date;
-        
+
         return $this;
     }
 
