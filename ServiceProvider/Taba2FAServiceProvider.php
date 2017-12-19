@@ -50,7 +50,9 @@ class Taba2FAServiceProvider implements ServiceProviderInterface
         $admin->match('/plugin/taba-2fa/regist/{id}', 'Plugin\Taba2FA\Controller\Taba2FAController::regist')->assert('id', '\d+')->bind('admin_plugin_taba-2fa_regist');
         //   登録ページ QR生成JS
         $admin->match('/plugin/taba-2fa/js/jquery-qrcode-min.js', 'Plugin\Taba2FA\Controller\Taba2FAController::jquery_qrcode_min')->bind('admin_plugin_taba-2fa_jquery-qrcode-min');
-        //   アプリバナー
+        //   画像
+        $admin->match('/plugin/taba-2fa/img/product_logo.svg', 'Plugin\Taba2FA\Controller\Taba2FAController::img_product_logo')->bind('admin_plugin_taba-2fa_img_product_logo');
+        $admin->match('/plugin/taba-2fa/img/taba_poweredby.svg', 'Plugin\Taba2FA\Controller\Taba2FAController::img_taba_poweredby')->bind('admin_plugin_taba-2fa_img_taba_poweredby');
         $admin->match('/plugin/taba-2fa/img/app_appstore.svg', 'Plugin\Taba2FA\Controller\Taba2FAController::img_app_appstore')->bind('admin_plugin_taba-2fa_img_app_appstore');
         $admin->match('/plugin/taba-2fa/img/app_googleplay.svg', 'Plugin\Taba2FA\Controller\Taba2FAController::img_app_googleplay')->bind('admin_plugin_taba-2fa_app_googleplay');
         //   削除

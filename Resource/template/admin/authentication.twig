@@ -15,7 +15,7 @@ file that was distributed with this source code.
     <div class="login-box">
         {{ include('alert.twig') }}
         <div class="login-box-body">
-            <p class="login-logo2"><img src="{{ app.config.admin_urlpath }}/assets/img/logo2.png" width="106"></p>
+            <p class="login-logo2"><img src="{{ url('admin_plugin_taba-2fa_img_product_logo') }}" width="80%"></p>
             <form name="form1" id="form1" method="post" action="" >
 
                 {% if app.session.flashBag.has('eccube.admin.login.target.path') %}
@@ -38,8 +38,10 @@ file that was distributed with this source code.
                 <p class="btn_area"><button type="submit" class="btn btn-primary btn-block btn-lg">2段階認証</button></p>
                 {{ form_row(form._token) }}
             </form>
+
         </div><!-- /.login-box-body -->
-        {# <p class="text-center"><small class="copyright">Copyright &copy; 2000-{{ "now"|date("Y") }} LOCKON CO.,LTD. All Rights Reserved.</small></p> #}
+        <p class="text-right"><a href="https://taba.sprd.ws/" target="_blank"><img src="{{ url('admin_plugin_taba-2fa_img_taba_poweredby') }}" height="25" title="taba"></a></p>
+        <p class="text-center"><small class="copyright">&copy; SPREAD WORKS Inc. All Rights Reserved.</small></p>
     </div><!-- /.login-box -->
 
 {% endblock %}
