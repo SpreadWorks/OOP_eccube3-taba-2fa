@@ -62,9 +62,14 @@ class Event
      */
     public function onAdminNavRender(FilterResponseEvent $event)
     {
-        if (!isset($this->app['eccube.plugin.taba-secure.event.menu'])) {
-            $this->app['eccube.plugin.taba-secure.event.menu'] = true;
-            $addHtml = <<< EOT
+        // HTMLの場合だけ、アイコンSVGの出力を行う
+        // CSV出力の場合のcontent-type
+        // application/octet-stream
+
+        if ($event->getResponse()->headers->get('content-type') === "text/html; charset=UTF-8") {
+            if (!isset($this->app['eccube.plugin.taba-secure.event.menu'])) {
+                $this->app['eccube.plugin.taba-secure.event.menu'] = true;
+                $addHtml = <<< EOT
 <script>
     $(function() {
         var navElement = $(".nav-sidebar li .taba-secure").parent();
@@ -80,8 +85,10 @@ class Event
 </script>
 </html>
 EOT;
-            $response = $event->getResponse();
-            $response->setContent(str_replace("</html>",$addHtml,$response->getContent()));
+                
+                $response = $event->getResponse();
+                $response->setContent(str_replace("</html>",$addHtml,$response->getContent()));
+            }
         }
     }
 
