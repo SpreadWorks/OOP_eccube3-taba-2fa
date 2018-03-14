@@ -285,4 +285,19 @@ class Taba2FAController extends AbstractController
         $response->headers->set('Content-Type', 'image/svg+xml');
         return $response;
     }
+
+    public function img_product_logo(Application $app, Request $request, $id = null)
+    {
+        $response =  $app->render('Taba2FA/Resource/assets/admin/img/product_logo.svg', array());
+        $response->headers->set('Content-Type', 'image/svg+xml');
+        return $response;
+    }
+
+    public function img_taba_poweredby(Application $app, Request $request, $id = null)
+    {
+        $response =  $app->render('Taba2FA/Resource/assets/admin/img/taba_poweredby.svg', array());
+        $response->headers->set('Content-Type', 'image/svg+xml');
+        return $response;
+    }
+
 }

@@ -26,7 +26,6 @@ class Event
      */
     private $app;
 
-
     /**
      * TwoFactorAuthenticationEvent constructor.
      *
@@ -49,6 +48,15 @@ class Event
             return;
         }
 
+        $request = $event->getRequest();
+        $route = $request->attributes->get('_route');
+
+        // 画像ファイルは認証チェックしません。
+        if ($route == "admin_plugin_taba-2fa_img_product_logo"
+            || $route == "admin_plugin_taba-2fa_img_taba_poweredby") {
+            return;
+        }
+
         // メンバー情報取得
         $Member = $this->app->user();
 
@@ -59,11 +67,8 @@ class Event
         if ($Member2FA && $Member2FA->isEnable()) {
             $date = new \DateTime();
             $timestamp = $date->format('U');
-
             if (!$this->app['session']->get('eccube.admin.plugin.twofactorauthentication_lastauth_at')
             || $this->app['session']->get('eccube.admin.plugin.twofactorauthentication_lastauth_at') < $timestamp) {
-                $request = $event->getRequest();
-                $route = $request->attributes->get('_route');
                 if ($route != "admin_plugin_taba-2fa_auth")  {
                     header('Location: '.$this->app->url('admin_plugin_taba-2fa_auth'));
                     exit;
@@ -71,6 +76,7 @@ class Event
             }
         }
     }
+
     /**
      * メンバー削除時に2段階認証レコードも削除する
      *
