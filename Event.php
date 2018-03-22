@@ -61,12 +61,13 @@ class Event
      * @param
      */
     public function onAdminNavRender(FilterResponseEvent $event)
-    {
-        // HTMLの場合だけ、アイコンSVGの出力を行う
-        // CSV出力の場合のcontent-type
-        // application/octet-stream
-
-        if ($event->getResponse()->headers->get('content-type') === "text/html; charset=UTF-8") {
+    {   
+        // CSVダウンロード時の対応
+        // ・StreamedResponseオブジェクトは、setContentがLogicExceptionとなる
+        // ・getContentがTrueの場合のみ実行
+        //  　\vendor\symfony\http-foundation\StreamedResponse.php
+        $response = $event->getResponse();
+        if ($response->getContent()) {
             if (!isset($this->app['eccube.plugin.taba-secure.event.menu'])) {
                 $this->app['eccube.plugin.taba-secure.event.menu'] = true;
                 $addHtml = <<< EOT
@@ -85,8 +86,6 @@ class Event
 </script>
 </html>
 EOT;
-                
-                $response = $event->getResponse();
                 $response->setContent(str_replace("</html>",$addHtml,$response->getContent()));
             }
         }
