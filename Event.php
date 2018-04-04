@@ -61,10 +61,16 @@ class Event
      * @param
      */
     public function onAdminNavRender(FilterResponseEvent $event)
-    {
-        if (!isset($this->app['eccube.plugin.taba-secure.event.menu'])) {
-            $this->app['eccube.plugin.taba-secure.event.menu'] = true;
-            $addHtml = <<< EOT
+    {   
+        // CSVダウンロード時の対応
+        // ・StreamedResponseオブジェクトは、setContentがLogicExceptionとなる
+        // ・getContentがTrueの場合のみ実行
+        //  　\vendor\symfony\http-foundation\StreamedResponse.php
+        $response = $event->getResponse();
+        if ($response->getContent()) {
+            if (!isset($this->app['eccube.plugin.taba-secure.event.menu'])) {
+                $this->app['eccube.plugin.taba-secure.event.menu'] = true;
+                $addHtml = <<< EOT
 <script>
     $(function() {
         var navElement = $(".nav-sidebar li .taba-secure").parent();
@@ -80,8 +86,8 @@ class Event
 </script>
 </html>
 EOT;
-            $response = $event->getResponse();
-            $response->setContent(str_replace("</html>",$addHtml,$response->getContent()));
+                $response->setContent(str_replace("</html>",$addHtml,$response->getContent()));
+            }
         }
     }
 
