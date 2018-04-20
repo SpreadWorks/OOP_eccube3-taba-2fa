@@ -1,6 +1,6 @@
 name: taba secure 2段階認証プラグイン
 code: Taba2FA
-version: 1.0.1
+version: 1.0.2
 service:
     - Taba2FAServiceProvider
 orm.path:
