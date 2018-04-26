@@ -48,6 +48,9 @@ class Event
             return;
         }
 
+         // ログイン済みの確認
+         if (!$this->app->isGranted('ROLE_ADMIN')) { return; }
+
         $request = $event->getRequest();
         $route = $request->attributes->get('_route');
 
