@@ -1,20 +1,23 @@
 version: 2
 jobs:
-  environment:
-    PLUGIN_CODE: Taba2FA
   build:
-　　branches:
+    environment:
+      PLUGIN_CODE: "Taba2FA"
+
+    branches:
       only:
         - master
+
     docker:
       # https://hub.docker.com/r/circleci/php/tags/
-      - image: circleci/php:5.6-apache-node-browsers
       # https://hub.docker.com/r/circleci/mysql/tags/
+      - image: circleci/php:5.6-apache-node-browsers
       - image: circleci/mysql:5.5
-      　environment:
-      　　DB_HOST: 127.0.0.1
-      　　MYSQL_USER: "testuser"
-      　　MYSQL_PASSWORD: "testpassword"
+
+    environment:
+      DB_HOST: 127.0.0.1
+      MYSQL_USER: "testuser"
+      MYSQL_PASSWORD: "testpassword"
 
     working_directory: ~/repo
 
@@ -34,11 +37,11 @@ jobs:
           paths:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
-        
+
       # run tests!
       #- run: phpunit
 
       - run:
-          name: run tests
+          name: prepare
           command: |
             tar zcvf $HOME/$PLUGIN_CODE.tar.gz
