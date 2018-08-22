@@ -1,11 +1,11 @@
 version: 2
 jobs:
+  environment:
+    PLUGIN_CODE: Taba2FA
   build:
 　　branches:
       only:
         - master
-    environment:
-      PLUGIN_CODE: Taba2FA
     docker:
       # https://hub.docker.com/r/circleci/php/tags/
       - image: circleci/php:5.6-apache-node-browsers
@@ -41,4 +41,4 @@ jobs:
       - run:
           name: run tests
           command: |
-            tar zcvf ~$PLUGIN_CODE.tar.gz
+            tar zcvf $HOME/$PLUGIN_CODE.tar.gz
