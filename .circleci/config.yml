@@ -44,5 +44,6 @@ jobs:
       - run:
           name: prepare
           command: |
-            pwd && ls -al
-#            cd ~repo; tar zcvf ~/$PLUGIN_CODE.tar.gz *
+            tar zcvf ~/$PLUGIN_CODE.tar.gz *
+#            pwd && ls -al
+
