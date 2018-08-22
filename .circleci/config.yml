@@ -22,7 +22,8 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - checkout
+      - checkout:
+      - run: pwd && ls -al
 
       # Download and cache dependencies
       - restore_cache:
@@ -41,7 +42,7 @@ jobs:
       # run tests!
       #- run: phpunit
 
-      - run:
-          name: prepare
-          command: |
-            tar zcvf $HOME/$PLUGIN_CODE.tar.gz
+#      - run:
+#          name: prepare
+#          command: |
+#            cd ~repo; tar zcvf ~/$PLUGIN_CODE.tar.gz *
