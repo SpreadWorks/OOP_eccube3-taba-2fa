@@ -43,7 +43,12 @@ jobs:
       - run:
           name:  Install PHP module 
           command: |
+            sudo apt-get -y install git unzip zlib1g-dev libpq-dev
+            sudo apt install -y mysql-client
+            sudo apt install -y postgresql-client
             sudo docker-php-ext-install pdo_mysql
+            sudo docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
+            sudo docker-php-ext-install pdo_pgsql
 
       - run:
           name: Package the plugin 
@@ -81,7 +86,6 @@ jobs:
           name: Install EC-CUBE  using MySQL 
           command: |
             cd $HOME/ec-cube
-            sudo apt install -y mysql-client
             cp $HOME/repo/.circleci/eccube_install.sh .
             sh ./eccube_install.sh mysql
 
@@ -94,6 +98,7 @@ jobs:
             php app/console plugin:develop disable --code=$PLUGIN_CODE
             php app/console plugin:develop uninstall --code=$PLUGIN_CODE
             rm -rf app/Plugin/$PLUGIN_CODE
+            rm -rf app/cahce/*
 
       - run:
           name: Install EC-CUBE  using PostgreSQL 
@@ -111,3 +116,4 @@ jobs:
             php app/console plugin:develop disable --code=$PLUGIN_CODE
             php app/console plugin:develop uninstall --code=$PLUGIN_CODE
             rm -rf app/Plugin/$PLUGIN_CODE
+            rm -rf app/cahce/*

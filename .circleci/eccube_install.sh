@@ -204,11 +204,11 @@ esac
 case "${DBTYPE}" in
 "pgsql" )
     # PostgreSQL
-    echo "dropdb..."
-    ${PSQL} -U ${PGUSER} -c "drop database ${DBNAME}"
+    #echo "dropdb..."
+    #${PSQL} -U ${PGUSER} -c "drop database ${DBNAME}"
 
-    echo "createdb..."
-    ${PSQL} -U ${PGUSER} -c "create database ${DBNAME} owner ${DBUSER}"
+    #echo "createdb..."
+    #${PSQL} -U ${PGUSER} -c "create database ${DBNAME} owner ${DBUSER}"
 
     echo "create table..."
     ./vendor/bin/doctrine orm:schema-tool:create || exit 1
@@ -217,7 +217,7 @@ case "${DBTYPE}" in
     php app/console migrations:migrate --no-interaction || exit 1
 
     echo "execute optional SQL..."
-    get_optional_sql | ${PSQL} -U ${DBUSER} -q ${DBNAME} || exit 1
+    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} -q ${DBNAME} || exit 1
 ;;
 "mysql" )
     if [ -n ${DBPASS} ]; then
