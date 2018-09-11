@@ -28,14 +28,13 @@ jobs:
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "composer.json" }}
-          # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
       - run: composer install -n --prefer-dist
 
       - save_cache:
           paths:
-            - ./vendor
+            - ./ec-cube/vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
 
       # run tests!
@@ -45,12 +44,21 @@ jobs:
           name: prepare
           command: |
             tar zcvf ~/$PLUGIN_CODE.tar.gz *
-            pwd && ls -al
 
             export DBSERVER=$DB_HOST
             export DBNAME=testdb
             export DBUSER=$MYSQL_USER
             export DBPASS=$MYSQL_PASSWORD
-            echo $DBSERVER
 
+            git clone --branch master https://github.com/EC-CUBE/ec-cube.git
+            cd ec-cube
+            git checkout -b refs/tags/3.0.16
 
+            composer selfupdate
+            composer global require hirak/prestissimo
+            composer install --dev --no-interaction -o
+
+            sh ./eccube_install.sh mysql
+
+            php app/console plugin:develop install --path=~/$PLUGIN_CODE.tar.gz
+            php app/console plugin:develop enable --code=$PLUGIN_CODE
