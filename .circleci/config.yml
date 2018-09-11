@@ -3,17 +3,14 @@ jobs:
   build:
     environment:
       PLUGIN_CODE: "Taba2FA"
-
+      DBSERVER: 127.0.0.1
+      DBNAME: cube3_dev
+      DBUSER: cube3_dev_user
+      DBPASS: password
 
     branches:
       only:
         - master
-
-    environment: 
-      DBSERVER=127.0.0.1
-      DBNAME=cube3_dev
-      DBUSER=cube3_dev_user
-      DBPASS=password
 
     docker:
       # https://hub.docker.com/r/circleci/php/tags/
@@ -55,13 +52,8 @@ jobs:
       #- run: phpunit
 
       - run:
-          name: prepare
+          name:  PHP module install
           command: |
-
-            # Plugin packaging
-            tar zcvf ~/$PLUGIN_CODE.tar.gz *
-
-            # PHP module install
             sudo apt-get install -y libzip-dev
             sudo docker-php-ext-install zip
             sudo apt-get update
@@ -69,6 +61,14 @@ jobs:
             sudo docker-php-ext-configure intl
             sudo docker-php-ext-install intl
             sudo docker-php-ext-install pdo_mysql
+
+      - run:
+          name: prepare
+          command: |
+
+            # Plugin packaging
+            cd ~/repo
+            tar zcvf ~/$PLUGIN_CODE.tar.gz *
 
             # EC-CUBE checkout
             cd ~
