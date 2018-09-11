@@ -11,9 +11,9 @@ jobs:
 
     environment: 
       DBSERVER=127.0.0.1
-      DBNAME=testdb
-      DBUSER=testuser
-      DBPASS=testpassword
+      DBNAME=cube3_dev
+      DBUSER=cube3_dev_user
+      DBPASS=password
 
     docker:
       # https://hub.docker.com/r/circleci/php/tags/
