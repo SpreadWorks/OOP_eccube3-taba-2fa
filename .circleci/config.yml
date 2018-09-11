@@ -4,9 +4,9 @@ jobs:
     environment:
       PLUGIN_CODE: "Taba2FA"
       DBSERVER: 127.0.0.1
-      DBNAME: cube3_dev
-      DBUSER: cube3_dev_user
-      DBPASS: password
+      DBNAME: testdb
+      DBUSER: testuser
+      DBPASS: testpassword
 
     branches:
       only:
@@ -18,12 +18,12 @@ jobs:
         command: |
           mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
         environment:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_DATABASE: cube3_dev
-          MYSQL_USER: cube3_dev_user
-          MYSQL_PASSWORD : password
+          MYSQL_HOST: $DBSERVER
+          MYSQL_DATABASE: $DBNAME
+          MYSQL_USER: $DBUSER
+          MYSQL_PASSWORD : $DBPASS
           MYSQL_ROOT_HOST: "%"
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: $DBPASS
           MYSQL_ALLOW_EMPTY_PASSWORD: no
 
     working_directory: ~/repo
@@ -59,11 +59,6 @@ jobs:
           - v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
           - v1-dependencies-
 
-      - save_cache: 
-          paths:
-            - ~/ec-cube/vendor
-          key: v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
-
       - run:
           name: Composer init
           command: |
@@ -71,6 +66,11 @@ jobs:
             composer selfupdate
             composer global require hirak/prestissimo
             composer install --dev --no-interaction -o
+
+      - save_cache: 
+          paths:
+            - ~/ec-cube/vendor
+          key: v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
 
       - run:
           name: Install EC-CUBE  using MySQL 
