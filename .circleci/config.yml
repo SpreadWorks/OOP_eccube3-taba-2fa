@@ -13,11 +13,12 @@ jobs:
       # https://hub.docker.com/r/circleci/mysql/tags/
       - image: circleci/php:5.6-apache-node-browsers
       - image: circleci/mysql:5.5
-
-    environment:
-      DB_HOST: 127.0.0.1
-      MYSQL_USER: "testuser"
-      MYSQL_PASSWORD: "testpassword"
+        environment:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DB: testdb
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpassword
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
 
     working_directory: ~/repo
 
@@ -30,7 +31,10 @@ jobs:
           - v1-dependencies-{{ checksum "composer.json" }}
           - v1-dependencies-
 
-      - run: composer install -n --prefer-dist
+      #- run: composer install -n --prefer-dist
+      - run: 
+          name: wait for db
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
       - save_cache:
           paths:
@@ -45,8 +49,8 @@ jobs:
           command: |
             tar zcvf ~/$PLUGIN_CODE.tar.gz *
 
-            export DBSERVER=$DB_HOST
-            export DBNAME=testdb
+            export DBSERVER=$MYSQL_HOST
+            export DBNAME=$MYSQL_DB
             export DBUSER=$MYSQL_USER
             export DBPASS=$MYSQL_PASSWORD
 
