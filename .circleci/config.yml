@@ -1,0 +1,49 @@
+version: 2
+jobs:
+  build:
+    environment:
+      PLUGIN_CODE: "Taba2FA"
+
+    branches:
+      only:
+        - master
+
+    docker:
+      # https://hub.docker.com/r/circleci/php/tags/
+      # https://hub.docker.com/r/circleci/mysql/tags/
+      - image: circleci/php:5.6-apache-node-browsers
+      - image: circleci/mysql:5.5
+
+    environment:
+      DB_HOST: 127.0.0.1
+      MYSQL_USER: "testuser"
+      MYSQL_PASSWORD: "testpassword"
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "composer.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: composer install -n --prefer-dist
+
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-{{ checksum "composer.json" }}
+
+      # run tests!
+      #- run: phpunit
+
+      - run:
+          name: prepare
+          command: |
+            tar zcvf ~/$PLUGIN_CODE.tar.gz *
+#            pwd && ls -al
+
