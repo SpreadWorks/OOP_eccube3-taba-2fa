@@ -23,12 +23,12 @@ jobs:
         command: |
           mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
         environment:
-          MYSQL_HOST: $DBSERVER
-          MYSQL_DATABASE: $DBNAME
-          MYSQL_USER: $DBUSER
-          MYSQL_PASSWORD : $DBPASS
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DATABASE: cube3_dev
+          MYSQL_USER: cube3_dev_user
+          MYSQL_PASSWORD : password
           MYSQL_ROOT_HOST: "%"
-          MYSQL_ROOT_PASSWORD: $DBPASS
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_ALLOW_EMPTY_PASSWORD: no
 
     working_directory: ~/repo
