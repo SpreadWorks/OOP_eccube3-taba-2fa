@@ -45,5 +45,12 @@ jobs:
           name: prepare
           command: |
             tar zcvf ~/$PLUGIN_CODE.tar.gz *
-#            pwd && ls -al
+            pwd && ls -al
+
+            export DBSERVER=$DB_HOST
+            export DBNAME=testdb
+            export DBUSER=$MYSQL_USER
+            export DBPASS=$MYSQL_PASSWORD
+            echo $DBSERVER
+
 
