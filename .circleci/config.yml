@@ -18,7 +18,7 @@ jobs:
         environment:
           MYSQL_DATABASE: circle_test
           MYSQL_USER: root
-          MYSQL_PASSWORD: ""
+#          MYSQL_PASSWORD: ""
           MYSQL_ROOT_HOST: "%"
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
 
@@ -27,21 +27,20 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
-          - v1-dependencies-
+#      - restore_cache:
+#          keys:
+#          - v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
+#          - v1-dependencies-
 
       #- run: composer install -n --prefer-dist
       - run: 
           name: wait for db
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
-      - save_cache:
-          paths:
-            - ~/ec-cube/vendor
-          key: v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
+#      - save_cache:
+#          paths:
+#            - ~/ec-cube/vendor
+#          key: v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
 
       # run tests!
       #- run: phpunit
@@ -69,7 +68,7 @@ jobs:
             export DBSERVER=$MYSQL_HOST
             export DBNAME=$MYSQL_DATABASE
             export DBUSER=$MYSQL_USER
-            export DBPASS=$MYSQL_PASSWORD
+            export DBPASS=" "
             sh ./eccube_install.sh mysql
 
             # Plugin install
