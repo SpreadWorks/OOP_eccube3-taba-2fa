@@ -71,7 +71,7 @@ export AUTH_MAGIC="droucliuijeanamiundpnoufrouphudrastiokec"
 export DBSERVER=${DBSERVER-"127.0.0.1"}
 export DBNAME=${DBNAME:-"cube3_dev"}
 export DBUSER=${DBUSER:-"cube3_dev_user"}
-#export DBPASS=${DBPASS:-"password"}
+export DBPASS=${DBPASS:-"password"}
 
 export MAIL_BACKEND=${MAILER_BACKEND:-"smtp"}
 export MAIL_HOST=${MAIL_HOST:-"localhost"}
