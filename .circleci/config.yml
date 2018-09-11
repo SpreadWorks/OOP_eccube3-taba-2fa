@@ -55,25 +55,17 @@ jobs:
           name:  PHP module install
           command: |
             sudo docker-php-ext-install pdo_mysql
-#            sudo apt-get install -y libzip-dev
-#            sudo docker-php-ext-install zip
-#            sudo apt-get update
-#            sudo apt-get install -y zlib1g-dev libicu-dev g++
-#            sudo docker-php-ext-configure intl
-#            sudo docker-php-ext-install intl
-#            sudo docker-php-ext-install pdo_mysql
 
       - run:
           name: prepare
           command: |
 
             # Plugin packaging
-            cd ~/repo
-            tar zcvf ~/$PLUGIN_CODE.tar.gz *
-            tar zxvf ~/$PLUGIN_CODE.tar.gz
+            cd $HOME/repo
+            tar zcvf $HOME/$PLUGIN_CODE.tar.gz *
 
             # EC-CUBE checkout
-            cd ~
+            cd $HOME
             git clone --branch master https://github.com/EC-CUBE/ec-cube.git
             cd ec-cube
             git checkout -b refs/tags/3.0.16
@@ -87,9 +79,9 @@ jobs:
             sudo apt install -y mysql-client
 
             # EC-CUBE install
-            cp ~/repo/.circleci/eccube_install.sh .
+            cp $HOME/repo/.circleci/eccube_install.sh .
             sh ./eccube_install.sh mysql
 
             # Plugin install
-            php app/console plugin:develop install --path=~/$PLUGIN_CODE.tar.gz
+            php app/console plugin:develop install --path=$HOME/$PLUGIN_CODE.tar.gz
             php app/console plugin:develop enable --code=$PLUGIN_CODE
