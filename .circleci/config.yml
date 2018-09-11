@@ -13,8 +13,6 @@ jobs:
         - master
 
     docker:
-      # https://hub.docker.com/r/circleci/php/tags/
-      # https://hub.docker.com/r/circleci/mysql/tags/
       - image: circleci/php:5.6-apache-node-browsers
       - image: circleci/mysql:5.5
         command: |
@@ -61,9 +59,15 @@ jobs:
           - v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
           - v1-dependencies-
 
+      - save_cache: 
+          paths:
+            - ~/ec-cube/vendor
+          key: v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
+
       - run:
           name: Composer init
           command: |
+            cd $HOME/eccube
             composer selfupdate
             composer global require hirak/prestissimo
             composer install --dev --no-interaction -o
@@ -71,6 +75,7 @@ jobs:
       - run:
           name: Install EC-CUBE  using MySQL 
           command: |
+            cd $HOME/eccube
             sudo apt install -y mysql-client
             cp $HOME/repo/.circleci/eccube_install.sh .
             sh ./eccube_install.sh mysql
@@ -78,10 +83,6 @@ jobs:
       - run:
           name: install Plugin
           command: |
+            cd $HOME/eccube
             php app/console plugin:develop install --path=$HOME/$PLUGIN_CODE.tar.gz
             php app/console plugin:develop enable --code=$PLUGIN_CODE
-
-      - save_cache: 
-          paths:
-            - ~/ec-cube/vendor
-          key: v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
