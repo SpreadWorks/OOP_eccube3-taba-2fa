@@ -8,6 +8,15 @@ jobs:
       only:
         - master
 
+    environment:
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD : testpassword
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: testpassword
+      MYSQL_ALLOW_EMPTY_PASSWORD: no
+
     docker:
       # https://hub.docker.com/r/circleci/php/tags/
       # https://hub.docker.com/r/circleci/mysql/tags/
@@ -15,14 +24,7 @@ jobs:
       - image: circleci/mysql:5.5
         command: |
           mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
-        environment:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_DATABASE: testdb
-          MYSQL_USER: testuser
-          MYSQL_PASSWORD : testpassword
-          MYSQL_ROOT_HOST: "%"
-          MYSQL_ROOT_PASSWORD: testpassword
-          MYSQL_ALLOW_EMPTY_PASSWORD: no
+
 
 #          MYSQL_DATABASE: circle_test
 #          MYSQL_USER: root
