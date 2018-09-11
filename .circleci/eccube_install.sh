@@ -242,7 +242,7 @@ case "${DBTYPE}" in
     php app/console migrations:migrate  --no-interaction || exit 1
 
     echo "execute optional SQL..."
-    get_optional_sql | ${MYSQL} -u ${DBUSER} ${PASSOPT} ${DBNAME} || exit 1
+    get_optional_sql | ${MYSQL} -h ${DBSERVER} -u ${DBUSER} ${PASSOPT} ${DBNAME} || exit 1
 ;;
 "sqlite3" )
     # sqlite3

@@ -57,6 +57,10 @@ jobs:
       - run:
           name: prepare
           command: |
+
+            # Plugin packaging
+            tar zcvf ~/$PLUGIN_CODE.tar.gz *
+
             # PHP module install
             sudo apt-get install -y libzip-dev
             sudo docker-php-ext-install zip
@@ -65,8 +69,6 @@ jobs:
             sudo docker-php-ext-configure intl
             sudo docker-php-ext-install intl
             sudo docker-php-ext-install pdo_mysql
-
-            tar zcvf ~/$PLUGIN_CODE.tar.gz *
 
             # EC-CUBE checkout
             cd ~
