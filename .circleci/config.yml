@@ -15,7 +15,7 @@ jobs:
       - image: circleci/mysql:5.5
         environment:
           MYSQL_HOST: 127.0.0.1
-          MYSQL_DB: testdb
+          MYSQL_DATABASE: testdb
           MYSQL_USER: testuser
           MYSQL_PASSWORD: testpassword
           MYSQL_ALLOW_EMPTY_PASSWORD: true
@@ -38,7 +38,7 @@ jobs:
 
       - save_cache:
           paths:
-            - ./ec-cube/vendor
+            - ~/ec-cube/vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
 
       # run tests!
@@ -49,20 +49,27 @@ jobs:
           command: |
             tar zcvf ~/$PLUGIN_CODE.tar.gz *
 
-            export DBSERVER=$MYSQL_HOST
-            export DBNAME=$MYSQL_DB
-            export DBUSER=$MYSQL_USER
-            export DBPASS=$MYSQL_PASSWORD
-
+            # EC-CUBE checkout
+            cd ~
             git clone --branch master https://github.com/EC-CUBE/ec-cube.git
             cd ec-cube
             git checkout -b refs/tags/3.0.16
 
+            # composer init
             composer selfupdate
             composer global require hirak/prestissimo
             composer install --dev --no-interaction -o
 
+            # MySQL command install
+            sudo apt install -y mysql-client
+
+            # EC-CUBE install
+            export DBSERVER=$MYSQL_HOST
+            export DBNAME=$MYSQL_DATABASE
+            export DBUSER=$MYSQL_USER
+            export DBPASS=$MYSQL_PASSWORD
             sh ./eccube_install.sh mysql
 
+            # Plugin install
             php app/console plugin:develop install --path=~/$PLUGIN_CODE.tar.gz
             php app/console plugin:develop enable --code=$PLUGIN_CODE
