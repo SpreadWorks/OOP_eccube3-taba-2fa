@@ -40,7 +40,7 @@ jobs:
 
       #- run: composer install -n --prefer-dist
       - run: 
-          name: wait for db
+          name: Wait for database
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
 #      - save_cache:
@@ -54,13 +54,14 @@ jobs:
       - run:
           name:  PHP module install
           command: |
-            sudo apt-get install -y libzip-dev
-            sudo docker-php-ext-install zip
-            sudo apt-get update
-            sudo apt-get install -y zlib1g-dev libicu-dev g++
-            sudo docker-php-ext-configure intl
-            sudo docker-php-ext-install intl
             sudo docker-php-ext-install pdo_mysql
+#            sudo apt-get install -y libzip-dev
+#            sudo docker-php-ext-install zip
+#            sudo apt-get update
+#            sudo apt-get install -y zlib1g-dev libicu-dev g++
+#            sudo docker-php-ext-configure intl
+#            sudo docker-php-ext-install intl
+#            sudo docker-php-ext-install pdo_mysql
 
       - run:
           name: prepare
@@ -69,6 +70,7 @@ jobs:
             # Plugin packaging
             cd ~/repo
             tar zcvf ~/$PLUGIN_CODE.tar.gz *
+            tar zxvf ~/$PLUGIN_CODE.tar.gz
 
             # EC-CUBE checkout
             cd ~
