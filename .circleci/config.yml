@@ -13,12 +13,14 @@ jobs:
       # https://hub.docker.com/r/circleci/mysql/tags/
       - image: circleci/php:5.6-apache-node-browsers
       - image: circleci/mysql:5.5
+        command: |
+          mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
         environment:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_DATABASE: testdb
-          MYSQL_USER: testuser
-          MYSQL_PASSWORD: testpassword
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_DATABASE: circle_test
+          MYSQL_USER: root
+          MYSQL_PASSWORD: ""
+          MYSQL_ROOT_HOST: "%"
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
 
     working_directory: ~/repo
 
@@ -28,7 +30,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "composer.json" }}
+          - v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
           - v1-dependencies-
 
       #- run: composer install -n --prefer-dist
@@ -39,7 +41,7 @@ jobs:
       - save_cache:
           paths:
             - ~/ec-cube/vendor
-          key: v1-dependencies-{{ checksum "composer.json" }}
+          key: v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
 
       # run tests!
       #- run: phpunit
