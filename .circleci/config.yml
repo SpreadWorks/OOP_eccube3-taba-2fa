@@ -18,7 +18,6 @@ jobs:
         environment:
           MYSQL_DATABASE: circle_test
           MYSQL_USER: root
-#          MYSQL_PASSWORD: ""
           MYSQL_ROOT_HOST: "%"
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
 
@@ -65,10 +64,11 @@ jobs:
             sudo apt install -y mysql-client
 
             # EC-CUBE install
+            cp ~/repo/.circleci/eccube_install.sh .
             export DBSERVER=$MYSQL_HOST
             export DBNAME=$MYSQL_DATABASE
             export DBUSER=$MYSQL_USER
-            export DBPASS=" "
+            export DBPASS=""
             sh ./eccube_install.sh mysql
 
             # Plugin install
