@@ -4,9 +4,9 @@ jobs:
     environment:
       PLUGIN_CODE: "Taba2FA"
       DBSERVER: 127.0.0.1
-      DBNAME: testdb
-      DBUSER: testuser
-      DBPASS: testpassword
+      DBNAME: cube3_dev
+      DBUSER: cube3_dev_user
+      DBPASS: password
 
     branches:
       only:
@@ -18,13 +18,18 @@ jobs:
         command: |
           mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
         environment:
-          MYSQL_HOST: $DBSERVER
-          MYSQL_DATABASE: $DBNAME
-          MYSQL_USER: $DBUSER
-          MYSQL_PASSWORD : $DBPASS
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DATABASE: cube3_dev
+          MYSQL_USER: cube3_dev_user
+          MYSQL_PASSWORD : password
           MYSQL_ROOT_HOST: "%"
-          MYSQL_ROOT_PASSWORD: $DBPASS
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_ALLOW_EMPTY_PASSWORD: no
+      - image: circleci/postgres:9.3-ram
+        environment:  
+          POSTGRES_DB: cube3_dev
+          POSTGRES_USER: cube3_dev_user
+          POSTGRES_PASSWORD : password
 
     working_directory: ~/repo
 
@@ -81,8 +86,28 @@ jobs:
             sh ./eccube_install.sh mysql
 
       - run:
-          name: install Plugin
+          name: Install plugin
           command: |
             cd $HOME/ec-cube
             php app/console plugin:develop install --path=$HOME/$PLUGIN_CODE.tar.gz
             php app/console plugin:develop enable --code=$PLUGIN_CODE
+            php app/console plugin:develop disable --code=$PLUGIN_CODE
+            php app/console plugin:develop uninstall --code=$PLUGIN_CODE
+            rm -rf app/Plugin/$PLUGIN_CODE
+
+      - run:
+          name: Install EC-CUBE  using PostgreSQL 
+          command: |
+            cd $HOME/ec-cube
+            cp $HOME/repo/.circleci/eccube_install.sh .
+            sh ./eccube_install.sh pgsql
+
+      - run:
+          name: Install plugin
+          command: |
+            cd $HOME/ec-cube
+            php app/console plugin:develop install --path=$HOME/$PLUGIN_CODE.tar.gz
+            php app/console plugin:develop enable --code=$PLUGIN_CODE
+            php app/console plugin:develop disable --code=$PLUGIN_CODE
+            php app/console plugin:develop uninstall --code=$PLUGIN_CODE
+            rm -rf app/Plugin/$PLUGIN_CODE
