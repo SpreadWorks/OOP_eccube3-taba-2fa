@@ -43,9 +43,9 @@ jobs:
       - run:
           name:  Install PHP module 
           command: |
-            sudo apt-get -y install git unzip zlib1g-dev libpq-dev
             sudo apt install -y mysql-client
-            sudo apt install -y postgresql-client
+            sudo apt install -y postgresql-client | true
+            sudo apt-get -y install zlib1g-dev libpq-dev
             sudo docker-php-ext-install pdo_mysql
             sudo docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
             sudo docker-php-ext-install pdo_pgsql
