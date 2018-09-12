@@ -12,11 +12,11 @@ jobs:
       only:
         - master
 
-#5-apache-stretch-node-browsers-legacy
-#- image: circleci/php:5.6-apache-node-browsers
-#5-apache-stretch-node-browsers-legacy
+#circleci/php:5-apache-jessie-node-browsers-legacy
+#circleci/php:5-apache-stretch-node-browsers-legacy
+#circleci/php:5.6-apache-node-browsers
     docker:
-      - image: circleci/php:5-apache-stretch-node-browsers-legacy
+      - image: circleci/php:5-apache-jessie-node-browsers-legacy
       - image: circleci/mysql:5.5
         command: |
           mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
