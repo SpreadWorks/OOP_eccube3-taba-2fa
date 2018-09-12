@@ -14,6 +14,7 @@ jobs:
 
 #5-apache-stretch-node-browsers-legacy
 #- image: circleci/php:5.6-apache-node-browsers
+#5-apache-stretch-node-browsers-legacy
     docker:
       - image: circleci/php:5-apache-stretch-node-browsers-legacy
       - image: circleci/mysql:5.5
