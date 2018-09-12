@@ -101,6 +101,7 @@ jobs:
             php app/console plugin:develop uninstall --code=$PLUGIN_CODE
             rm -rf app/Plugin/$PLUGIN_CODE
             rm -rf app/cahce/*
+            rm -f app/cache/plugin/config_cache.php
 
       - run:
           name: Install EC-CUBE  using MySQL 
@@ -119,4 +120,5 @@ jobs:
             php app/console plugin:develop uninstall --code=$PLUGIN_CODE
             rm -rf app/Plugin/$PLUGIN_CODE
             rm -rf app/cahce/*
+            rm -f app/cache/plugin/config_cache.php
 
