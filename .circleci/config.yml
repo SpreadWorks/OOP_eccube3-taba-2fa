@@ -44,13 +44,13 @@ jobs:
           name:  Install PHP module 
           command: |
             export DEBIAN_FRONTEND=noninteractive
-            sudo apt update
-            sudo apt install -y mysql-client
-            sudo docker-php-ext-install pdo_mysql
-            sudo apt-get -y install zlib1g-dev libpq-dev
-            sudo docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
-            sudo docker-php-ext-install pdo_pgsql
-            sudo apt install -y postgresql-client || true
+            sudo -E apt update
+            sudo -E apt install -y mysql-client
+            sudo -E docker-php-ext-install pdo_mysql
+            sudo -E apt-get -y install zlib1g-dev libpq-dev
+            sudo -E docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
+            sudo -E docker-php-ext-install pdo_pgsql
+            sudo -E apt install -y postgresql-client || true
 
       - run:
           name: Package the plugin 
@@ -85,6 +85,24 @@ jobs:
           key: v1-dependencies-{{ checksum "~/ec-cube/composer.json" }}
 
       - run:
+          name: Install EC-CUBE  using PostgreSQL 
+          command: |
+            cd $HOME/ec-cube
+            cp $HOME/repo/.circleci/eccube_install.sh .
+            sh ./eccube_install.sh pgsql
+
+      - run:
+          name: Install plugin
+          command: |
+            cd $HOME/ec-cube
+            php app/console plugin:develop install --path=$HOME/$PLUGIN_CODE.tar.gz
+            php app/console plugin:develop enable --code=$PLUGIN_CODE
+            php app/console plugin:develop disable --code=$PLUGIN_CODE
+            php app/console plugin:develop uninstall --code=$PLUGIN_CODE
+            rm -rf app/Plugin/$PLUGIN_CODE
+            rm -rf app/cahce/*
+
+      - run:
           name: Install EC-CUBE  using MySQL 
           command: |
             cd $HOME/ec-cube
@@ -102,20 +120,3 @@ jobs:
             rm -rf app/Plugin/$PLUGIN_CODE
             rm -rf app/cahce/*
 
-      - run:
-          name: Install EC-CUBE  using PostgreSQL 
-          command: |
-            cd $HOME/ec-cube
-            cp $HOME/repo/.circleci/eccube_install.sh .
-            sh ./eccube_install.sh pgsql
-
-      - run:
-          name: Install plugin
-          command: |
-            cd $HOME/ec-cube
-            php app/console plugin:develop install --path=$HOME/$PLUGIN_CODE.tar.gz
-            php app/console plugin:develop enable --code=$PLUGIN_CODE
-            php app/console plugin:develop disable --code=$PLUGIN_CODE
-            php app/console plugin:develop uninstall --code=$PLUGIN_CODE
-            rm -rf app/Plugin/$PLUGIN_CODE
-            rm -rf app/cahce/*
