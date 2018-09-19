@@ -6,5 +6,3 @@ service:
 orm.path:
     - /Resource/doctrine
 event: Event
-const:
-    plugin_enable: true

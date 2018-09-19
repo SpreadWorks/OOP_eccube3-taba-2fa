@@ -15,6 +15,8 @@ use Eccube\Event\EventArgs;
 use Eccube\Event\TemplateEvent;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Yaml\Yaml;
+use Plugin\Taba2FA\Common\UserConfig;
 
 /**
  * Class TwoFactorAuthenticationEvent.
@@ -43,13 +45,19 @@ class Event
      */
     public function onEventAdminController($event)
     {
-        // config.yml の plugin_enable が false に設定されていた場合、処理を終了します。
-        if (!$this->app['config']['Taba2FA']['const']['plugin_enable']) {
-            return;
-        }
+        // plugin_enable.ymlを利用し、無効化する機能 
+        // ファイルがない場合（null）は、有効
+        $file = $this->app['config']['plugin_realdir'] . DIRECTORY_SEPARATOR . 'Taba2FA' . DIRECTORY_SEPARATOR . 'user_config.yml';
+        UserConfig::getInstance()->load($file);
+        $test = UserConfig::getInstance()->get("plugin_enable"); 
 
-         // ログイン済みの確認
-         if (!$this->app->isGranted('ROLE_ADMIN')) { return; }
+        if (UserConfig::getInstance()->get("plugin_enable") === true) {
+            // ファイルがある場合かつ、無効の場合は、処理を終了する。
+            return;
+        } 
+
+        // ログイン済みの確認
+        if (!$this->app->isGranted('ROLE_ADMIN')) { return; }
 
         $request = $event->getRequest();
         $route = $request->attributes->get('_route');
