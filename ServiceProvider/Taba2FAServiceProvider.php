@@ -37,6 +37,19 @@ class Taba2FAServiceProvider implements ServiceProviderInterface
      */
     public function register(BaseApplication $app)
     {
+        // プラグインが未インストールまたは無効の場合、処理を中断します。
+        if (!isset($app['eccube.custom.plugin.enable_list'])) {
+            $list = array();
+            $plugins = $app['eccube.repository.plugin']->findBy(array('enable' => 1,'del_flg' => 0));
+            foreach ($plugins as $plugin) {
+                $list[$plugin->getCode()] = $plugin;
+            }
+            $app['eccube.custom.plugin.enable_list'] = $list;
+        }
+        if (!array_key_exists("Taba2FA",$app['eccube.custom.plugin.enable_list'])) {
+            return;
+        }
+
         // Route 設定
         //  管理画面
         $admin = $app['controllers_factory'];

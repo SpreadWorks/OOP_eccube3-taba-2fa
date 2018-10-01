@@ -42,7 +42,9 @@ class Event
      */
     public function onEventAdminController( $event)
     {
-        $this->app['eccube.plugin.taba-2fa_auth.event']->onEventAdminController($event);
+        if (isset($this->app['eccube.plugin.taba-2fa_auth.event'])) {
+            $this->app['eccube.plugin.taba-2fa_auth.event']->onEventAdminController($event);
+        }
     }
 
     /**
@@ -52,7 +54,9 @@ class Event
      */
     public function onAdminMemberDeleteInitialize( $event)
     {
-        $this->app['eccube.plugin.taba-2fa_member_delete.event']->onAdminMemberDeleteInitialize($event);
+        if (isset($this->app['eccube.plugin.taba-2fa_member_delete.event'])) {
+            $this->app['eccube.plugin.taba-2fa_member_delete.event']->onAdminMemberDeleteInitialize($event);
+        }
     }
 
     /**
@@ -61,7 +65,7 @@ class Event
      * @param
      */
     public function onAdminNavRender(FilterResponseEvent $event)
-    {   
+    {
         // CSVダウンロード時の対応
         // ・StreamedResponseオブジェクトは、setContentがLogicExceptionとなる
         // ・getContentがTrueの場合のみ実行
