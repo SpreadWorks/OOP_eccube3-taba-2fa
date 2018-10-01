@@ -49,8 +49,6 @@ class Event
         // ファイルがない場合（null）は、有効
         $file = $this->app['config']['plugin_realdir'] . DIRECTORY_SEPARATOR . 'Taba2FA' . DIRECTORY_SEPARATOR . 'user_config.yml';
         UserConfig::getInstance()->load($file);
-        $test = UserConfig::getInstance()->get("plugin_enable"); 
-
         if (UserConfig::getInstance()->get("plugin_enable") === true) {
             // ファイルがある場合かつ、無効の場合は、処理を終了する。
             return;
